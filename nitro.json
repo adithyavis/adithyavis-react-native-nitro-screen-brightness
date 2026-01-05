@@ -1,0 +1,17 @@
+{
+  "cxxNamespace": ["nitroscreenbrightness"],
+  "ios": {
+    "iosModuleName": "NitroScreenBrightness"
+  },
+  "android": {
+    "androidNamespace": ["nitroscreenbrightness"],
+    "androidCxxLibName": "nitroscreenbrightness"
+  },
+  "autolinking": {
+    "NitroScreenBrightness": {
+      "swift": "NitroScreenBrightness",
+      "kotlin": "NitroScreenBrightness"
+    }
+  },
+  "ignorePaths": ["node_modules"]
+}
