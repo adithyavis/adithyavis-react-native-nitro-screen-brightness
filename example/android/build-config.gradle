@@ -1,0 +1,11 @@
+// Custom build configuration to prevent duplicate classes from parent library
+// This file is only used when building the example app
+
+gradle.projectsEvaluated {
+    // Prevent React Native codegen from running in parent library directory
+    tasks.withType(com.facebook.react.codegen.generator.JavaReactModuleSpecTask).configureEach { task ->
+        if (task.project.projectDir.toString().contains("react-native-nitro-screen-brightness/android")) {
+            task.enabled = false
+        }
+    }
+}

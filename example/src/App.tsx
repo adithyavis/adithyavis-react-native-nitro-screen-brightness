@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Text, View, StyleSheet, Button, Platform } from 'react-native';
+import { Text, View, StyleSheet, Platform } from 'react-native';
+import Slider from '@react-native-community/slider';
 import {
   getBrightness,
   setBrightness,
@@ -12,7 +13,7 @@ export default function App() {
   );
   const [systemBrightnessState] = useState<number>(getSystemBrightness());
 
-  const handleSetBrightness = (value: number) => {
+  const handleBrightnessChange = (value: number) => {
     setBrightness(value);
     setBrightnessState(value);
   };
@@ -32,12 +33,23 @@ export default function App() {
         )}
       </View>
 
-      <View style={styles.buttonContainer}>
-        <Button title="Min (0%)" onPress={() => handleSetBrightness(0.0)} />
-        <Button title="25%" onPress={() => handleSetBrightness(0.25)} />
-        <Button title="50%" onPress={() => handleSetBrightness(0.5)} />
-        <Button title="75%" onPress={() => handleSetBrightness(0.75)} />
-        <Button title="Max (100%)" onPress={() => handleSetBrightness(1.0)} />
+      <View style={styles.sliderContainer}>
+        <Text style={styles.sliderLabel}>Adjust Brightness</Text>
+        <Slider
+          style={styles.slider}
+          minimumValue={0}
+          maximumValue={1}
+          value={brightnessState}
+          onValueChange={handleBrightnessChange}
+          minimumTrackTintColor="#007AFF"
+          maximumTrackTintColor="#D1D1D6"
+          thumbTintColor="#007AFF"
+          step={0.01}
+        />
+        <View style={styles.sliderLabels}>
+          <Text style={styles.sliderEndLabel}>0%</Text>
+          <Text style={styles.sliderEndLabel}>100%</Text>
+        </View>
       </View>
     </View>
   );
@@ -65,11 +77,28 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginVertical: 5,
   },
-  buttonContainer: {
+  sliderContainer: {
+    width: '100%',
+    paddingHorizontal: 20,
+    marginTop: 20,
+  },
+  sliderLabel: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  slider: {
+    width: '100%',
+    height: 40,
+  },
+  sliderLabels: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    gap: 10,
-    marginBottom: 20,
+    justifyContent: 'space-between',
+    marginTop: 5,
+  },
+  sliderEndLabel: {
+    fontSize: 14,
+    color: '#666',
   },
 });
