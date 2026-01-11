@@ -24,7 +24,12 @@ apply plugin: "com.android.library"
 apply plugin: "kotlin-android"
 apply from: '../nitrogen/generated/android/nitroscreenbrightness+autolinking.gradle'
 
-apply plugin: "com.facebook.react"
+// Only apply React plugin when NOT building from example app
+// This prevents duplicate slider classes in monorepo setup
+def isExampleBuild = project.rootProject.projectDir.absolutePath.contains("/example/")
+if (!isExampleBuild) {
+    apply plugin: "com.facebook.react"
+}
 
 def getExtOrIntegerDefault(name) {
   return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties["NitroScreenBrightness_" + name]).toInteger()

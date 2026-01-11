@@ -1,0 +1,28 @@
+// Gradle init script to prevent duplicate DEX classes in monorepo setup
+// This completely prevents React Native codegen from running on the parent library
+
+// Disable all React Native codegen tasks for parent library
+allprojects {
+    afterEvaluate { project ->
+        if (project.path == ':react-native-nitro-screen-brightness') {
+            // Disable both codegen generation and usage tasks
+            project.tasks.whenTaskAdded { task ->
+                // Match any codegen-related task names
+                if (task.name.matches('.*(G|g)enerateCodegen.*') ||
+                    task.name.matches('.*(B|b)uildCodegen.*') ||
+                    task.name.matches('.*[Cc]odegen.*') ||
+                    task.name.contains('ReactCodegen')) {
+                    task.enabled = false
+                }
+            }
+
+            // Also disable any existing codegen tasks
+            project.tasks.configureEach { task ->
+                if (task.name.contains('odegen') ||
+                    task.name.contains('Codegen')) {
+                    task.enabled = false
+                }
+            }
+        }
+    }
+}
